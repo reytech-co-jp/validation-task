@@ -21,7 +21,7 @@ public class UserPostRequest {
 
     @AssertTrue(message = "パスワードと確認用パスワードが一致していません")
     private boolean isPasswordMatching() {
-        return this.password != null && this.password.equals(this.confirmPassword);
+        return this.confirmPassword != null && this.password.equals(this.confirmPassword);
     }
 
     public String getUsername() {
