@@ -85,7 +85,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void usernameとpasswordとconfirmPasswordがデータが有効な場合はエラーとならないこと() throws Exception {
+    public void usernameとpasswordとconfirmPasswordが有効な場合はエラーとならないこと() throws Exception {
         UserPostRequest user = new UserPostRequest("Yamada", "password", "password");
         ResultActions actualResult = mockMvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
