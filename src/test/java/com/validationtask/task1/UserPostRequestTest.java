@@ -143,7 +143,7 @@ class UserPostRequestTest {
     }
 
     @Test
-    public void passwordとconfirmPasswordが一致するときバリデーションエラーとならないこと() {
+    public void usernameが有効でpasswordとconfirmPasswordが一致するときバリデーションエラーとならないこと() {
         UserPostRequest userPostRequest = new UserPostRequest("Yamada", "password", "password");
         Set<ConstraintViolation<UserPostRequest>> violations = validator.validate(userPostRequest);
         assertThat(violations).isEmpty();
