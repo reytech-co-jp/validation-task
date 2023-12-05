@@ -19,7 +19,7 @@ public class UserAPIExceptionHandler {
         e.getBindingResult().getFieldErrors().forEach(fieldError -> {
             Map<String, String> error = new HashMap<>();
             error.put("field", fieldError.getField());
-            error.put("message",fieldError.getDefaultMessage());
+            error.put("message", fieldError.getDefaultMessage());
             errors.add(error);
         });
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, "validation error", errors);
