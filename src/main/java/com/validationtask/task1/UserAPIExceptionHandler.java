@@ -25,6 +25,7 @@ public class UserAPIExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, "validation error", errors);
         return ResponseEntity.badRequest().body(errorResponse);
     }
+
     public static final class ErrorResponse {
         private final HttpStatus status;
         private final String message;
