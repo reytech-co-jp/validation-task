@@ -129,7 +129,6 @@ class UserPostRequestTest {
                 .extracting(violation -> violation.getPropertyPath().toString(), ConstraintViolation::getMessage)
                 .containsExactlyInAnyOrder(tuple("password", "パスワードを入力してください"),
                         tuple("password", "パスワードは8文字以上30文字以下である必要があります"));
-
     }
 
     @Test
