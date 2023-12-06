@@ -67,7 +67,7 @@ class UserPostRequestTest {
 
     @Test
     public void usernameは20文字超のときにバリデーションエラーとなること() {
-        UserPostRequest userPostRequest = new UserPostRequest("Y".repeat(31), "password", "password");
+        UserPostRequest userPostRequest = new UserPostRequest("Y".repeat(21), "password", "password");
         Set<ConstraintViolation<UserPostRequest>> violations = validator.validate(userPostRequest);
         assertThat(violations).hasSize(1);
         assertThat(violations)
