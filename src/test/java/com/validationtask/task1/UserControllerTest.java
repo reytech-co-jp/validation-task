@@ -39,12 +39,12 @@ class UserControllerTest {
                             "message":"ユーザー名を入力してください"
                           },
                           {
-                          "field":"password",
-                          "message":"パスワードを入力してください"
+                            "field":"password",
+                            "message":"パスワードを入力してください"
                           },
                           {
-                          "field":"passwordMatching",
-                          "message":"パスワードと確認用パスワードが一致していません"
+                            "field":"passwordMatching",
+                            "message":"パスワードと確認用パスワードが一致していません"
                           }
                          ]
                         }
@@ -72,12 +72,12 @@ class UserControllerTest {
                             "message":"ユーザー名は3文字以上20文字以下である必要があります"
                           },
                           {
-                          "field":"password",
-                          "message":"パスワードを入力してください"
+                            "field":"password",
+                            "message":"パスワードを入力してください"
                           },
                           {
-                          "field":"password",
-                          "message":"パスワードは8文字以上30文字以下である必要があります"
+                            "field":"password",
+                            "message":"パスワードは8文字以上30文字以下である必要があります"
                           }
                          ]
                         }
