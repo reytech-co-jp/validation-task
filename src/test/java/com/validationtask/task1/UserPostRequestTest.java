@@ -113,8 +113,8 @@ class UserPostRequestTest {
     }
 
     @Test
-    public void passwordは3文字未満のときにバリデーションエラーとなること() {
-        UserPostRequest userPostRequest = new UserPostRequest("Yamada", "pa", "pa");
+    public void passwordは8文字未満のときにバリデーションエラーとなること() {
+        UserPostRequest userPostRequest = new UserPostRequest("Yamada", "p".repeat(7), "p".repeat(7));
         Set<ConstraintViolation<UserPostRequest>> violations = validator.validate(userPostRequest);
         assertThat(violations).hasSize(1);
         assertThat(violations)
