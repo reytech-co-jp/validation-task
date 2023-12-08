@@ -66,6 +66,13 @@ class UserPostRequestTest {
     }
 
     @Test
+    public void usernameは3文字のときにバリデーションエラーとならないこと() {
+        UserPostRequest userPostRequest = new UserPostRequest("Yam", "password", "password");
+        Set<ConstraintViolation<UserPostRequest>> violations = validator.validate(userPostRequest);
+        assertThat(violations).isEmpty();
+    }
+
+    @Test
     public void usernameは20文字超のときにバリデーションエラーとなること() {
         UserPostRequest userPostRequest = new UserPostRequest("Y".repeat(21), "password", "password");
         Set<ConstraintViolation<UserPostRequest>> violations = validator.validate(userPostRequest);
@@ -74,6 +81,13 @@ class UserPostRequestTest {
                 .extracting(violation -> violation.getPropertyPath().toString(), ConstraintViolation::getMessage)
                 .containsExactlyInAnyOrder(tuple("username", "ユーザー名は3文字以上20文字以下である必要があります"));
 
+    }
+
+    @Test
+    public void usernameは20文字のときにバリデーションエラーとならないこと() {
+        UserPostRequest userPostRequest = new UserPostRequest("Y".repeat(20), "password", "password");
+        Set<ConstraintViolation<UserPostRequest>> violations = validator.validate(userPostRequest);
+        assertThat(violations).isEmpty();
     }
 
     @Test
@@ -110,6 +124,13 @@ class UserPostRequestTest {
     }
 
     @Test
+    public void passwordは8文字のときにバリデーションエラーとならないこと() {
+        UserPostRequest userPostRequest = new UserPostRequest("Yamada", "p".repeat(8), "p".repeat(8));
+        Set<ConstraintViolation<UserPostRequest>> violations = validator.validate(userPostRequest);
+        assertThat(violations).isEmpty();
+    }
+
+    @Test
     public void passwordは30文字超のときにバリデーションエラーとなること() {
         UserPostRequest userPostRequest = new UserPostRequest("Yamada", "p".repeat(31), "p".repeat(31));
         Set<ConstraintViolation<UserPostRequest>> violations = validator.validate(userPostRequest);
@@ -118,6 +139,13 @@ class UserPostRequestTest {
                 .extracting(violation -> violation.getPropertyPath().toString(), ConstraintViolation::getMessage)
                 .containsExactlyInAnyOrder(tuple("password", "パスワードは8文字以上30文字以下である必要があります"));
 
+    }
+
+    @Test
+    public void passwordは30文字のときにバリデーションエラーとならないこと() {
+        UserPostRequest userPostRequest = new UserPostRequest("Yamada", "p".repeat(30), "p".repeat(30));
+        Set<ConstraintViolation<UserPostRequest>> violations = validator.validate(userPostRequest);
+        assertThat(violations).isEmpty();
     }
 
     @Test
