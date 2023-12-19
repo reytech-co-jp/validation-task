@@ -12,7 +12,7 @@ public class CategoryValidator implements ConstraintValidator<ValidCategory, Str
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         if (value == null) {
-            return true;
+            return false;
         }
 
         try {
