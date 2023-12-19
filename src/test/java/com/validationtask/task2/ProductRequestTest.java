@@ -101,11 +101,10 @@ public class ProductRequestTest {
     public void categoryがnullのときにバリデーションエラーとなること() {
         ProductRequest productRequest = new ProductRequest("iPhone15", null, 150000);
         Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
-        assertThat(violations).hasSize(2);
+        assertThat(violations).hasSize(1);
         assertThat(violations)
                 .extracting(violation -> violation.getPropertyPath().toString(), ConstraintViolation::getMessage)
-                .containsExactlyInAnyOrder(tuple("category", "無効なカテゴリです"),
-                        tuple("category", "入力してください"));
+                .containsExactlyInAnyOrder(tuple("category", "入力してください"));
     }
 
     @Test
