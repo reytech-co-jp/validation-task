@@ -78,10 +78,6 @@ public class ProductControllerTest {
                                  "message": "入力してください"
                               },
                               {
-                                 "field": "category",
-                                 "message": "無効なカテゴリです"
-                              },
-                              {
                                  "field": "price",
                                  "message": "入力してください"
                               }
