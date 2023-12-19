@@ -6,6 +6,8 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Set;
 
@@ -19,6 +21,28 @@ public class ProductRequestTest {
     public static void setUpValidator() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "2, Electronics, 150000",
+            "10, Electronics, 150000",
+            "20, Electronics, 150000",
+            "20, ELECTRONICS, 150000",
+            "20, electronics, 150000",
+            "20, CLOTHING, 150000",
+            "20, Clothing, 150000",
+            "20, clothing, 150000",
+            "20, BOOKS, 150000",
+            "20, Books, 150000",
+            "20, books, 150000",
+            "20, Electronics, 1",
+            "20, Electronics, 1000000"
+    })
+    public void 有効なproductNameとcategoryとprice場合はバリデーションエラーとならないこと(String productNameCount, String category, String price) {
+        ProductRequest productRequest = new ProductRequest("p".repeat(Integer.valueOf(productNameCount)), category, Integer.valueOf(price));
+        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
+        assertThat(violations).isEmpty();
     }
 
     @Test
@@ -74,20 +98,6 @@ public class ProductRequestTest {
     }
 
     @Test
-    public void productNameが2文字のときにバリデーションエラーとならないこと() {
-        ProductRequest productRequest = new ProductRequest("Ph", "Electronics", 150000);
-        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
-        assertThat(violations).isEmpty();
-    }
-
-    @Test
-    public void productNameが20文字のときにバリデーションエラーとならないこと() {
-        ProductRequest productRequest = new ProductRequest("P".repeat(20), "Electronics", 150000);
-        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
-        assertThat(violations).isEmpty();
-    }
-
-    @Test
     public void categoryがnullのときにバリデーションエラーとなること() {
         ProductRequest productRequest = new ProductRequest("iPhone15", null, 150000);
         Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
@@ -131,69 +141,6 @@ public class ProductRequestTest {
     }
 
     @Test
-    public void categoryがELECTRONICSで大文字のときにバリデーションエラーとならないこと() {
-        ProductRequest productRequest = new ProductRequest("iPhone15", "ELECTRONICS", 150000);
-        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
-        assertThat(violations).isEmpty();
-    }
-
-    @Test
-    public void categoryがelectronicsで小文字のときにバリデーションエラーとならないこと() {
-        ProductRequest productRequest = new ProductRequest("iPhone15", "electronics", 150000);
-        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
-        assertThat(violations).isEmpty();
-    }
-
-    @Test
-    public void categoryがElectronicsで文字の先頭が大文字のときにバリデーションエラーとならないこと() {
-        ProductRequest productRequest = new ProductRequest("iPhone15", "Electronics", 150000);
-        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
-        assertThat(violations).isEmpty();
-    }
-
-    @Test
-    public void categoryがCLOTHINGで大文字のときにバリデーションエラーとならないこと() {
-        ProductRequest productRequest = new ProductRequest("iPhone15", "CLOTHING", 150000);
-        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
-        assertThat(violations).isEmpty();
-    }
-
-    @Test
-    public void categoryがclothingで小文字のときにバリデーションエラーとならないこと() {
-        ProductRequest productRequest = new ProductRequest("iPhone15", "clothing", 150000);
-        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
-        assertThat(violations).isEmpty();
-    }
-
-    @Test
-    public void categoryがClothingで文字の先頭が大文字のときにバリデーションエラーとならないこと() {
-        ProductRequest productRequest = new ProductRequest("iPhone15", "Clothing", 150000);
-        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
-        assertThat(violations).isEmpty();
-    }
-
-    @Test
-    public void categoryがBOOKSで大文字のときにバリデーションエラーとならないこと() {
-        ProductRequest productRequest = new ProductRequest("iPhone15", "BOOKS", 150000);
-        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
-        assertThat(violations).isEmpty();
-    }
-
-    @Test
-    public void categoryがbooksで小文字のときにバリデーションエラーとならないこと() {
-        ProductRequest productRequest = new ProductRequest("iPhone15", "books", 150000);
-        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
-        assertThat(violations).isEmpty();
-    }
-
-    @Test
-    public void categoryがBooksで文字の先頭が大文字のときにバリデーションエラーとならないこと() {
-        ProductRequest productRequest = new ProductRequest("iPhone15", "Books", 150000);
-        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
-        assertThat(violations).isEmpty();
-    }
-
-    @Test
     public void priceがnullのときにバリデーションエラーとなること() {
         ProductRequest productRequest = new ProductRequest("iPhone15", "Electronics", null);
         Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
@@ -221,26 +168,5 @@ public class ProductRequestTest {
         assertThat(violations)
                 .extracting(violation -> violation.getPropertyPath().toString(), ConstraintViolation::getMessage)
                 .containsExactlyInAnyOrder(tuple("price", "1000000以下である必要があります"));
-    }
-
-    @Test
-    public void priceが0より大きいときにバリデーションエラーとならないこと() {
-        ProductRequest productRequest = new ProductRequest("iPhone15", "Electronics", 1);
-        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
-        assertThat(violations).isEmpty();
-    }
-
-    @Test
-    public void priceが1000000のときにバリデーションエラーとならないこと() {
-        ProductRequest productRequest = new ProductRequest("iPhone15", "Electronics", 1000000);
-        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
-        assertThat(violations).isEmpty();
-    }
-
-    @Test
-    public void productNameとcategoryとpriceが有効な場合はバリデーションエラーとならないこと() {
-        ProductRequest productRequest = new ProductRequest("iPhone15", "Electronics", 150000);
-        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
-        assertThat(violations).isEmpty();
     }
 }
