@@ -8,6 +8,6 @@ public enum CategoryEnum {
     BOOKS;
 
     public static CategoryEnum from(String value) {
-        return Optional.of(CategoryEnum.valueOf(value.toUpperCase())).orElseThrow(() -> new IllegalArgumentException("{ValidCategory}"));
+        return Optional.of(CategoryEnum.valueOf(value.toUpperCase())).orElseThrow(() -> new IllegalArgumentException("無効なカテゴリです"));
     }
 }
