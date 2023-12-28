@@ -21,8 +21,8 @@ public class ProductControllerTest {
     MockMvc mockMvc;
 
     @Test
-    public void productNameとcategoryが空白でpriceが0の場合は400エラーとなること() throws Exception {
-        ProductRequest productRequest = new ProductRequest("", "", 0);
+    public void productNameとcategoryとsellerが空白でpriceが0の場合は400エラーとなること() throws Exception {
+        ProductRequest productRequest = new ProductRequest("", "", 0, "");
         ResultActions actual = mockMvc.perform(post("/products")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(OBJECT_MAPPER.writeValueAsString(productRequest)));
@@ -51,6 +51,10 @@ public class ProductControllerTest {
                               {
                                  "field": "price",
                                  "message": "0より大きい値である必要があります"
+                              },
+                              {
+                                 "field": "seller",
+                                 "message": "無効な販売者です"
                               }
                            ]
                         }
@@ -58,8 +62,8 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void productNameとcategoryとpriceがnullの場合は400エラーとなること() throws Exception {
-        ProductRequest productRequest = new ProductRequest(null, null, null);
+    public void productNameとcategoryとpriceとsellerがnullの場合は400エラーとなること() throws Exception {
+        ProductRequest productRequest = new ProductRequest(null, null, null, null);
         ResultActions actual = mockMvc.perform(post("/products")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(OBJECT_MAPPER.writeValueAsString(productRequest)));
@@ -80,6 +84,10 @@ public class ProductControllerTest {
                               {
                                  "field": "price",
                                  "message": "入力してください"
+                              },
+                              {
+                                 "field": "seller",
+                                 "message": "無効な販売者です"
                               }
                            ]
                         }
@@ -87,8 +95,8 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void productNameとcategoryとpriceが有効な場合は400エラーとならないこと() throws Exception {
-        ProductRequest productRequest = new ProductRequest("iphone15", "Electronics", 150000);
+    public void productNameとcategoryとpriceとsellerが有効な場合は400エラーとならないこと() throws Exception {
+        ProductRequest productRequest = new ProductRequest("iphone15", "Electronics", 150000, "Yamada");
         ResultActions actual = mockMvc.perform(post("/products")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(OBJECT_MAPPER.writeValueAsString(productRequest)));

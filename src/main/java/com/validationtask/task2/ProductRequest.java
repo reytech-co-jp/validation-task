@@ -16,10 +16,14 @@ public class ProductRequest {
     @Max(value = 1000000, message = "{E0005}")
     private Integer price;
 
-    public ProductRequest(String productName, String category, Integer price) {
+    @ValidSeller
+    private String seller;
+
+    public ProductRequest(String productName, String category, Integer price, String seller) {
         this.productName = productName;
         this.category = category;
         this.price = price;
+        this.seller = seller;
     }
 
     public String getProductName() {
@@ -32,5 +36,9 @@ public class ProductRequest {
 
     public Integer getPrice() {
         return price;
+    }
+
+    public String getSeller() {
+        return seller;
     }
 }
