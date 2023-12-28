@@ -221,7 +221,7 @@ public class ProductRequestTest {
 
     @ParameterizedTest
     @CsvSource({
-            "20, Electronics, 1000000, \uD868\uDC82",
+            "20, Electronics, 1000000, 𪂂",
             "20, Electronics, 1000000, 📷"
     })
     public void sellerに1文字のサロゲートペアの漢字と絵文字を渡したときにバリデーションエラーとならないこと(String productNameCount, String category, String price, String sellerCount) {
@@ -232,7 +232,7 @@ public class ProductRequestTest {
 
     @Test
     public void sellerが19文字の通常文字と1文字のサロゲートペアの漢字を渡したときにバリデーションエラーとなること() {
-        ProductRequest productRequest = new ProductRequest("iPhone15", "Electronics", 150000, "Y".repeat(19) + "\uD868\uDC82");
+        ProductRequest productRequest = new ProductRequest("iPhone15", "Electronics", 150000, "Y".repeat(19) + "𪂂");
         Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
         assertThat(violations).hasSize(1);
         assertThat(violations)
